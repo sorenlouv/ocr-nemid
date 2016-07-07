@@ -11,8 +11,7 @@ const CODES_FILE = path.resolve(__dirname, '..', '..', '..', 'temp', 'sorennemid
 module.exports = React.createClass({
   getInitialState() {
     return {
-      codes: [],
-      codeKey: ''
+      codes: []
     };
   },
 
@@ -21,10 +20,6 @@ module.exports = React.createClass({
       .then(codes => {
         this.setState({codes: JSON.parse(codes)});
       });
-  },
-
-  onChangeCodeKey(evt) {
-    this.setState({codeKey: evt.target.value});
   },
 
   onChangeFile(evt) {
@@ -53,8 +48,7 @@ module.exports = React.createClass({
     return (
        <div>
            <input type="file" onChange={this.onChangeFile}></input>
-           <input type="text" onChange={this.onChangeCodeKey}></input>
-           <CodesTable codes={this.state.codes} codeKey={this.state.codeKey}></CodesTable>
+           <CodesTable codes={this.state.codes}></CodesTable>
        </div>
     );
   }

@@ -1,16 +1,21 @@
 # Setup
 
-Install dependencies
+#### Install dependencies
 ```
 npm install
 ```
 
-Start electron
+#### Install Tesseract (OSX)
+```
+brew install tesseract
+```
+
+#### Start electron
 ```
 npm start
 ```
 
-Create binary package
+#### Create binary package
 ```
 npm run package
 ```

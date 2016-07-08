@@ -1,10 +1,18 @@
 'use strict';
 
+const _ = require('lodash');
+const path = require('path');
 const bp = require('bluebird');
 const tesseractProcess = bp.promisify(require('node-tesseract').process);
-const _ = require('lodash');
+const fs = bp.promisifyAll(require('fs'));
 
-function parseOcrText(ocrText) {
+const TMP_FOLDER = path.resolve(__dirname, '..', '..', 'tmp');
+const IMAGE_PATH = path.resolve(TMP_FOLDER, 'image.jpg');
+const CODES_FILE = path.resolve(TMP_FOLDER, 'codes.json');
+
+let service = {};
+
+service.parseOcrText = function(ocrText) {
   let rows = ocrText.split('\n')  // Split on linebreak
   .filter(row => row.length > 44) // Remove short lines
   .map(row => row.split(' '))     // Split on space
@@ -48,9 +56,9 @@ function parseOcrText(ocrText) {
   });
 
   return _(rows).flattenDeep().chunk(2).sortBy('[0]').value();
-}
+};
 
-function getCodes(filename) {
+service.getCodesFromImage = function() {
   let options = {
     tessedit_write_images: true,
     // l: 'deu',
@@ -59,13 +67,37 @@ function getCodes(filename) {
     binary: '/usr/local/bin/tesseract'
   };
 
-  return tesseractProcess(filename, options)
-    .then(function(ocrText) {
-      return parseOcrText(ocrText);
-    });
-}
-
-module.exports = {
-  getCodes: getCodes,
-  parseOcrText: parseOcrText
+  return tesseractProcess(IMAGE_PATH, options)
+    .then(ocrText => service.parseOcrText(ocrText));
 };
+
+service.saveImage = function(binaryData) {
+  return fs.writeFileAsync(IMAGE_PATH, binaryData, 'binary');
+};
+
+service.saveCodes = function(codes) {
+  return fs.writeFileAsync(CODES_FILE, JSON.stringify(codes), 'utf-8');
+};
+
+service.getCodes = function() {
+  return fs.readFileAsync(CODES_FILE, {encoding: 'utf-8'});
+};
+
+service.createTempFolder = function() {
+  if (!fs.existsSync(TMP_FOLDER)){
+    return fs.mkdirSync(TMP_FOLDER);
+  }
+};
+
+// Save and process image, and return codes
+service.save = function(binaryData) {
+  service.createTempFolder();
+
+  return service.saveImage(binaryData)
+    .then(() => service.getCodesFromImage())
+    .then(codes => {
+      return service.saveCodes(codes).then(() => codes);
+    });
+};
+
+module.exports = service;

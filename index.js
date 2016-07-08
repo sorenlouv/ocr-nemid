@@ -34,8 +34,8 @@ function createMenuIfNotExist() {
 function createPrimaryWindow() {
   primaryWindow = new BrowserWindow({
     width: 400,
-    height: 300,
-    title: 'Nemid OCR'
+    height: 350,
+    title: 'NemID Hjælperen'
   });
 
   primaryWindow.hide();
@@ -61,11 +61,10 @@ function createPrimaryWindow() {
 function createSecondaryWindow() {
   secondaryWindow = new BrowserWindow({
     width: 400,
-    height: 300,
+    height: 350,
     title: 'Loading NemID...'
   });
 
   secondaryWindow.loadURL('file://' + __dirname + '/src/secondaryWindow.html');
-
   secondaryWindow.on('closed', () => secondaryWindow = null);
 }

@@ -1,0 +1,38 @@
+html, body, #nemid-ocr-app, .main-container {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+
+    font-family: 'Open Sans', sans-serif;
+}
+
+.main-container {
+    text-align: center;
+}
+
+.splash-screen .upload-container {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+    padding: 22px;
+    border-radius: 22px;
+    width: 200px;
+    font-size: 22px;
+}
+
+.upload-container {
+    padding: 5.5px;
+    border-radius: 5.5px;
+    text-align: center;
+    background: #18ab29;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    width: 120px;
+}
+
+.upload-container input {
+    display: none;
+}

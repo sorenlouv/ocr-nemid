@@ -1,0 +1,29 @@
+.codes-table-container {
+	text-align: center;
+	margin-top: 22px;
+}
+
+.codes-table-container table {
+	margin: 0 auto;
+	width: 120px;
+}
+
+.codes-table-container td {
+	padding: 5.5px 2.25px;
+}
+
+.codes-table-container td.key {
+	font-weight: 700;
+}
+
+.codes-table-container .search {
+	width: 106px;
+	padding: 5.5px 0;
+	font-size: 22px;
+	text-align: center;
+}
+
+.codes-table-container .key-icon {
+	width: 20px;
+	margin-bottom: -5.5px;
+}

@@ -9,8 +9,6 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount() {},
-
   onChangeCodeKey(evt) {
     this.setState({codeKey: evt.target.value});
   },
@@ -37,32 +35,36 @@ module.exports = React.createClass({
 
   render() {
     var displayCodes = this.props.codes.filter(code => _.startsWith(code[0], this.state.codeKey));
-    displayCodes = displayCodes.slice(0, 25);
+    displayCodes = displayCodes.slice(0, 5);
+
+    let tableNode = (
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th><img className="key-icon" src="./img/key-icon.png"/></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {
+              displayCodes.map((code, i) => {
+                return (
+                  <tr key={i}>
+                    <td className="key">{code[0]}</td>
+                    <td>{code[1]}</td>
+                  </tr>
+                );
+              })
+          }
+        </tbody>
+      </table>
+    );
 
     return (
-      <div>
-        <input type="text" onChange={this.onChangeCodeKey}></input>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {
-                displayCodes.map((code, i) => {
-                  return (
-                    <tr key={i}>
-                      <td>{code[0]}</td>
-                      <td>{code[1]}</td>
-                    </tr>
-                  );
-                })
-            }
-          </tbody>
-        </table>
+      <div className="codes-table-container">
+        <input className="search" placeholder="Search..." type="text" maxLength="4" autoFocus onChange={this.onChangeCodeKey}></input>
+        {_.isEmpty(displayCodes) ? <p>No matches</p> : tableNode}
       </div>
     );
   }

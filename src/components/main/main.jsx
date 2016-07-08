@@ -19,10 +19,14 @@ module.exports = React.createClass({
     fs.readFileAsync(CODES_FILE, {encoding: 'utf-8'})
       .then(codes => {
         this.setState({codes: JSON.parse(codes)});
+      })
+      .catch(function() {
+        console.log('No code file was found');
       });
   },
 
   onChangeFile(evt) {
+    var that = this;
     let file = evt.target.files[0];
     let reader = new FileReader();
 
@@ -31,10 +35,13 @@ module.exports = React.createClass({
       fs.writeFileAsync(IMAGE_FILE, binaryFile, 'binary')
         .then(() => ocrService.getCodes(IMAGE_FILE))
         .then(codes => {
-          return fs.writeFileAsync(CODES_FILE, JSON.stringify(codes), 'utf-8');
-        })
-        .then(() => {
-          console.log('done');
+          return fs.writeFileAsync(CODES_FILE, JSON.stringify(codes), 'utf-8')
+            .then(() => {
+              that.setState({codes: codes});
+              new Notification('Your card was saved', {
+                body: codes.length + ' codes were found'
+              });
+            });
         })
         .catch(err => {
           console.error(err);

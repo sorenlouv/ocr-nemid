@@ -47,7 +47,7 @@ function parseOcrText(ocrText) {
     });
   });
 
-  return _(rows).flattenDeep().chunk(2).value();
+  return _(rows).flattenDeep().chunk(2).sortBy('[0]').value();
 }
 
 function getCodes(filename) {

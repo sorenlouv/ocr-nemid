@@ -58,7 +58,9 @@ module.exports = React.createClass({
           });
         })
         .catch(err => {
-          console.error(err);
+          new Notification('An error occured', {
+            body: err
+          });
         })
         .finally(loadingStop);
     };
@@ -85,7 +87,7 @@ module.exports = React.createClass({
     let uploadInput = (
       <div className="upload-container" onClick={this.onClickUpload}>
         <span>{this.getButtonText()}</span>
-        <input type="file" onChange={this.onChangeFile}></input>
+        <input type="file" onChange={this.onChangeFile} accept=".gif,.jpg,.jpeg,.png"></input>
       </div>
     );
     let codesTable = <CodesTable codes={this.state.codes}></CodesTable>;

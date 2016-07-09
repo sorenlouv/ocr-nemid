@@ -55,7 +55,18 @@ service.parseOcrText = function(ocrText) {
     });
   });
 
-  return _(rows).flattenDeep().chunk(2).sortBy('[0]').value();
+  let codes = _(rows).flattenDeep()
+  .filter(line => {
+    return !isNaN(parseFloat(line)) && isFinite(line);
+  })
+  .chunk(2)
+  .sortBy('[0]')
+  .filter(line => {
+    return line[0].length === 4 && line[1].length === 6;
+  })
+  .value();
+
+  return codes;
 };
 
 service.getCodesFromImage = function() {

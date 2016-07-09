@@ -17,10 +17,15 @@
 }
 
 .codes-table-container .search {
-	width: 106px;
+	width: 110px;
 	padding: 5.5px 0;
 	font-size: 22px;
 	text-align: center;
+}
+
+.codes-table-container .search::-webkit-inner-spin-button,
+.codes-table-container .search::-webkit-outer-spin-button {
+	-webkit-appearance: none;
 }
 
 .codes-table-container .key-icon {

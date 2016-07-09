@@ -15,12 +15,8 @@ module.exports = React.createClass({
 
   componentDidMount() {
     ocrService.getCodes()
-      .then(codes => {
-        this.setState({codes: JSON.parse(codes)});
-      })
-      .catch(function() {
-        console.log('No code file was found');
-      });
+      .then(codes => this.setState({codes: codes}))
+      .catch(e => console.error('An error occured', e));
   },
 
   loadingStart() {
@@ -37,7 +33,7 @@ module.exports = React.createClass({
   },
 
   getLoadingText() {
-    let words = ['uploading', 'uploading.', 'uploading..', 'uploading...', 'uploading....', 'uploading.....'];
+    let words = ['analyzing', 'analyzing.', 'analyzing..', 'analyzing...', 'analyzing....', 'analyzing.....'];
     return words[this.state.loadingTime];
   },
 
@@ -80,7 +76,7 @@ module.exports = React.createClass({
     if (this.state.isUploading) {
       return this.getLoadingText();
     }
-    return this.hasCodes() ? 'Replace NemId' : 'Upload NemId';
+    return this.hasCodes() ? 'Replace NemId' : 'Select NemId';
   },
 
   render() {

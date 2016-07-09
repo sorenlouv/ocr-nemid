@@ -91,7 +91,14 @@ service.saveCodes = function(codes) {
 };
 
 service.getCodes = function() {
-  return fs.readFileAsync(CARD_TEXT_FILE, {encoding: 'utf-8'});
+  return fs.readFileAsync(CARD_TEXT_FILE, {encoding: 'utf-8'})
+    .then(codes => JSON.parse(codes))
+    .catch(e => {
+      let fileNotFound = e.code === 'ENOENT';
+      if (fileNotFound) {
+        return [];
+      }
+    });
 };
 
 service.createTempFolder = function() {

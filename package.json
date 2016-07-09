@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "package": "electron-packager ./ --platform=darwin --arch=x64 --out=./ocr-nemid-package --ignore=ocr-nemid-package --ignore=tmp --overwrite"
+    "package": "electron-packager ./ --platform=darwin --arch=x64 --out=./ocr-nemid-package --ignore=ocr-nemid-package --ignore=tmp/card.* --overwrite"
   },
   "repository": {
     "type": "git",

@@ -7,8 +7,8 @@ const tesseractProcess = bp.promisify(require('node-tesseract').process);
 const fs = bp.promisifyAll(require('fs'));
 
 const TMP_FOLDER = path.resolve(__dirname, '..', '..', 'tmp');
-const IMAGE_PATH = path.resolve(TMP_FOLDER, 'image.jpg');
-const CODES_FILE = path.resolve(TMP_FOLDER, 'codes.json');
+const CARD_IMAGE_PATH = path.resolve(TMP_FOLDER, 'card.jpg');
+const CARD_TEXT_FILE = path.resolve(TMP_FOLDER, 'card.json');
 
 let service = {};
 
@@ -67,20 +67,20 @@ service.getCodesFromImage = function() {
     binary: '/usr/local/bin/tesseract'
   };
 
-  return tesseractProcess(IMAGE_PATH, options)
+  return tesseractProcess(CARD_IMAGE_PATH, options)
     .then(ocrText => service.parseOcrText(ocrText));
 };
 
 service.saveImage = function(binaryData) {
-  return fs.writeFileAsync(IMAGE_PATH, binaryData, 'binary');
+  return fs.writeFileAsync(CARD_IMAGE_PATH, binaryData, 'binary');
 };
 
 service.saveCodes = function(codes) {
-  return fs.writeFileAsync(CODES_FILE, JSON.stringify(codes), 'utf-8');
+  return fs.writeFileAsync(CARD_TEXT_FILE, JSON.stringify(codes), 'utf-8');
 };
 
 service.getCodes = function() {
-  return fs.readFileAsync(CODES_FILE, {encoding: 'utf-8'});
+  return fs.readFileAsync(CARD_TEXT_FILE, {encoding: 'utf-8'});
 };
 
 service.createTempFolder = function() {

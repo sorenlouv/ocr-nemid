@@ -22,8 +22,7 @@ module.exports = React.createClass({
   loadingStart() {
     this.setState({isUploading: true});
     let id = setInterval(() => {
-      this.state.loadingTime = this.state.loadingTime > 4 ? 0 : ++this.state.loadingTime;
-      this.setState({loadingTime: this.state.loadingTime});
+      this.setState({loadingTime: ++this.state.loadingTime});
     }, 200);
 
     return () => {
@@ -33,8 +32,8 @@ module.exports = React.createClass({
   },
 
   getLoadingText() {
-    let words = ['analyzing', 'analyzing.', 'analyzing..', 'analyzing...', 'analyzing....', 'analyzing.....'];
-    return words[this.state.loadingTime];
+    let dots = _.repeat('.', this.state.loadingTime % 6);
+    return 'analyzing' + dots;
   },
 
   onChangeFile(evt) {
@@ -50,7 +49,7 @@ module.exports = React.createClass({
         .then(codes => {
           that.setState({codes: codes});
           new Notification('Your card was saved', {
-            body: codes.length + ' codes were found'
+            body: codes.length + 'of 148 codes were found'
           });
         })
         .catch(err => {
